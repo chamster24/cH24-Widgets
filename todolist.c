@@ -20,15 +20,13 @@ void fetchfile() { // Fetches the file
 		todolist = fopen(PATH, "a"); // Creates an empty todo list if it doesn't already exist
 		if (todolist == NULL) { // Failed to write blank todo file
 			SYS_STATUS = 100; // File Error
-
 			char *tmp = realloc(ERR_DETAIL, 170 * sizeof(char));
 			if (tmp == NULL) {
-				strcpy(ERR_DETAIL, "OOM E100"); // TODO: upd to updstr
+				updstr(ERR_DETAIL, "OOM E100", 10 * sizeof(char));
 			} else {
 				ERR_DETAIL = tmp;
-				strcpy(ERR_DETAIL, "E100 - Failed to Failed to fetch/create file 'userdate\\todo.txt'.\n\nThis is likely due to a perms error/missing folder. \nTry adding it yourself and restarting this widget."); // TODO: upd to updstr
+				updstr(ERR_DETAIL, "E100 - Failed to Failed to fetch/create file 'userdate\\todo.txt'.\n\nThis is likely due to a perms error/missing folder. \nTry adding it yourself and restarting this widget.", 170 * sizeof(char));
 			};
-			fclose(todolist);
 			return;
 		} else {
 			fclose(todolist);
