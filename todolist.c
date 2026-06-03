@@ -13,6 +13,15 @@ void updstr(char *dest, const char *src, size_t dest_size) {
     dest[dest_size - 1] = '\0'; // Manually force the null terminator at the end
 }
 
+// SETUP STUFF
+char ERR_DETAIL[3][256] = { // Max str size = 255 per line due to null terminator
+	"0", // Err CODE
+	"UNK_ERR",
+	"No Extras" // Any Extras
+}; // Will malloc inside main
+// check the memory init INSIDE main
+
+
 void fetchfile() { // Fetches the file 
 
 	FILE *todolist; // Creates the file pointer
@@ -20,23 +29,17 @@ void fetchfile() { // Fetches the file
 	if (todolist == NULL) {
 		todolist = fopen(PATH, "a"); // Creates an empty todo list if it doesn't already exist
 		if (todolist == NULL) { // Failed to write blank todo file
-			SYS_STATUS = 100; // File Error
-			char *tmp = realloc(ERR_DETAIL, 170 * sizeof(char));
-			if (tmp == NULL) {
-				updstr(ERR_DETAIL, "OOM E100", 10 * sizeof(char));
-			} else {
-				ERR_DETAIL = tmp;
-				updstr(ERR_DETAIL, "E100 - Failed to Failed to fetch/create file 'userdate\\todo.txt'.\n\nThis is likely due to a perms error/missing folder. \nTry adding it yourself and restarting this widget.", 170 * sizeof(char));
-			};
+			strcpy(ERR_DETAIL[0], "100"); // Error Code 100 - File Error (Failed to read/write file)
+			strcpy(ERR_DETAIL[1], "E100 - Failed to Failed to fetch/create file 'userdate\\todo.txt'.\n\nThis is likely due to a perms error/missing folder. \nTry adding it yourself and restarting this widget."); // 170 chars < max of 255
 			return;
 		} else {
 			fclose(todolist);
 			return; // Created file
-		};
+		}
 	} else {
 		return; // Fetched file
-	};
-};
+	}
+}
 
 struct savefile {
 
@@ -45,20 +48,17 @@ struct savefile {
 
 
 int main() {
-	unsigned char SYS_STATUS = 1;
-	char *ERR_DETAIL = malloc(11 * sizeof(char)); // max str size = 19, since it's leaving space for a null terminator
-	unsigned ERR_DETAIL_SIZE = 11;
-	if ((SYS_STATUS == 0) || (ERR_DETAIL == NULL)) {
+	// Checks if all variables have initiated/initialize extra variables, as previously mentioned
+	if (ERR_DETAIL == NULL) {
 		printf("Program terminating - Ran out of memory before core processes initiated.");
 	} else {
-		SYS_STATUS = 0;
-		updstr(ERR_DETAIL, "UNK_ERR", ERR_DETAIL_SIZE * sizeof(char));
-	};
+		strcpy(ERR_DETAIL[0], "0");
+	}
 	
-	while (1) { // todo: connect functions to main
-		if (SYS_STATUS != 0) {
-			printf("An error occured!\n\n The program is automatically quitting...\n\nDebug:\nError Code: %u\nError Info:%s\n", SYS_STATUS, ERR_DETAIL);
+	while (1) { // TODO: connect functions to main
+		if (ERR_DETAIL[0] != "0") {
+			printf("An error occured!\n\n The program is automatically quitting...\n\nDebug:\nError Code: %s\nError Info:%s\n\nExtras:%s", ERR_DETAIL[0], ERR_DETAIL[1], ERR_DETAIL[2]);
 			return 1;
-		};
-	};
+		}
+	}
 };
