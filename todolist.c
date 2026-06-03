@@ -56,7 +56,7 @@ int main() {
 	}
 	
 	while (1) { // TODO: connect functions to main
-		if (strcmp(ERR_DETAIL[0], "0") != "0") {
+		if (strcmp(ERR_DETAIL[0], "0") != 0) {
 			printf("An error occured!\n\n The program is automatically quitting...\n\nDebug:\nError Code: %s\nError Info:%s\n\nExtras:%s", ERR_DETAIL[0], ERR_DETAIL[1], ERR_DETAIL[2]);
 			return 1;
 		}
