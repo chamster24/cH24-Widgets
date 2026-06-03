@@ -53,7 +53,7 @@ int main() {
 		printf("Program terminating - Ran out of memory before core processes initiated.");
 	} else {
 		SYS_STATUS = 0;
-		updstr(ERR_DETAIL, "UNK_ERR", sizeof(ERR_DETAIL_SIZE));
+		updstr(ERR_DETAIL, "UNK_ERR", ERR_DETAIL_SIZE * sizeof(char));
 	};
 	
 	while (1) { // todo: connect functions to main
