@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifdef _WIN32
 	#define PATH "userdata\\todo.txt"
@@ -47,7 +48,7 @@ int main() {
 	unsigned char SYS_STATUS = 1;
 	char *ERR_DETAIL = malloc(11 * sizeof(char)); // max str size = 19, since it's leaving space for a null terminator
 	unsigned ERR_DETAIL_SIZE = 11;
-	if ((SYS_STATUS == 0) || (ERR_DETAIL == NULL) {
+	if ((SYS_STATUS == 0) || (ERR_DETAIL == NULL)) {
 		printf("Program terminating - Ran out of memory before core processes initiated.");
 	} else {
 		SYS_STATUS = 0;
